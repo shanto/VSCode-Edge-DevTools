@@ -609,6 +609,10 @@ export class DevToolsPanel {
         }
     }
 
+    getColumn() {
+        return this.panel ? this.panel.viewColumn : null;
+    }
+
     static createOrShow(
         context: vscode.ExtensionContext,
         telemetryReporter: Readonly<TelemetryReporter>,
@@ -630,8 +634,9 @@ export class DevToolsPanel {
             panel.iconPath = vscode.Uri.joinPath(context.extensionUri, 'icon.png');
             DevToolsPanel.instance = new DevToolsPanel(panel, context, telemetryReporter, targetUrl, config);
 
-            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-            ScreencastPanel.instance && ScreencastPanel.instance.update();
+            if (ScreencastPanel.instance) {
+                ScreencastPanel.instance.update();
+            }
         }
     }
 }

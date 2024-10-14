@@ -170,7 +170,7 @@ export class ScreencastPanel {
 
     static createOrShow(context: vscode.ExtensionContext,
         telemetryReporter: TelemetryReporter, targetUrl: string, isJsDebugProxiedCDPConnection = false): void {
-        const column = vscode.ViewColumn.Beside;
+        const column = DevToolsPanel.instance?.getColumn() ?? vscode.ViewColumn.Beside;
         if (ScreencastPanel.instance) {
             ScreencastPanel.instance.dispose();
         } else {
@@ -181,6 +181,10 @@ export class ScreencastPanel {
             });
             panel.iconPath = vscode.Uri.joinPath(context.extensionUri, 'icon.png');
             ScreencastPanel.instance = new ScreencastPanel(panel, context, telemetryReporter, targetUrl, isJsDebugProxiedCDPConnection);
+
+            if (ScreencastPanel.instance) {
+                ScreencastPanel.instance.update();
+            }
         }
     }
 }
